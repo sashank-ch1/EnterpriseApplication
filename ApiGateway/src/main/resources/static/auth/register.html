@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Register</title>
+</head>
+<body>
+  <h1>Register</h1>
+  <form id="registerForm">
+    <label>Username: <input type="text" id="username" /></label><br/>
+    <label>Password: <input type="password" id="password" /></label><br/>
+    <label>Roles: <input type="text" id="roles" value="USER" /></label><br/>
+    <button type="button" onclick="submitForm()">Sign up</button>
+  </form>
+  <p id="result"></p>
+
+  <script>
+    async function submitForm() {
+      const payload = {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
+        roles: document.getElementById('roles').value
+      };
+      const res = await fetch('/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      const text = await res.text();
+      document.getElementById('result').innerText = `Response: ${res.status} - ${text}`;
+    }
+  </script>
+  <p><a href="/auth/login">Sign in</a></p>
+</body>
+</html>
